@@ -1,0 +1,71 @@
+<header th:fragment="crm-header">
+  <!-- Navigation bar using Bootstrap classes -->
+  <nav class="navbar navbar-expand-lg bg-primary">
+    <!-- Brand logo and name -->
+    <div class="container">
+      <a class="navbar-brand" href="/index">
+        <img
+          src="/images/logo.png" 
+          alt="Smart programming logo"
+          width="50"
+        />
+        <span class="h2 text-white">Smart Programming</span>
+      </a>
+      <!-- Toggler button for mobile view -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Collapsible content -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- Navigation links -->
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4">
+          <!-- Home link -->
+          <li class="nav-item">
+            <a
+              class="nav-link text-white"
+              aria-current="page"
+              href="/index"
+              >Home</a
+            >
+          </li>
+          <!-- Courses link -->
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle text-white"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              More
+            </a>
+            <!-- Dropdown menu -->
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="#">Online batch details</a>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="#">About Us</a></li>
+              <li>
+                <a class="dropdown-item" href="#">Contact Us</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- Login and Register buttons -->
+        <div class="d-flex">
+          <a href="/login" class="btn btn-outline-light ms-4">Login</a>
+          <a href="/register" class="btn btn-light ms-4">Register</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

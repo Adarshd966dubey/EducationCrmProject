@@ -1,0 +1,73 @@
+<header th:fragment="u-header">
+     <!-- Navigation bar using Bootstrap classes -->
+     <nav class="navbar navbar-expand-lg bg-primary">
+       <!-- Brand logo and name -->
+       <div class="container">
+         <a class="navbar-brand" href="/index">
+           <img
+             src="images/logo.png"
+             alt="Smart programming logo"
+             width="50"
+           />
+           <span class="h2 text-white">Smart Programming</span>
+         </a>
+         <!-- Toggler button for mobile view -->
+         <button
+           class="navbar-toggler"
+           type="button"
+           data-bs-toggle="collapse"
+           data-bs-target="#navbarSupportedContent"
+           aria-controls="navbarSupportedContent"
+           aria-expanded="false"
+           aria-label="Toggle navigation"
+         >
+           <span class="navbar-toggler-icon"></span>
+         </button>
+         <!-- Collapsible content -->
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+           <!-- Navigation links -->
+           <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4">
+             <!-- Home link -->
+             <li class="nav-item">
+               <a
+                 class="nav-link text-white"
+                 aria-current="page"
+                 href="/index"
+                 >Home</a
+               >
+             </li>
+           </ul>
+
+           <ul class="navbar-nav mb-2 mb-lg-0 me-4">
+             <!-- Home link -->
+             <li class="nav-item">
+               <a
+                 class="nav-link text-white"
+                 aria-current="page"
+                 href="myCourses"
+                 >My Courses</a
+               >
+             </li>
+           </ul>
+
+           <ul class="navbar-nav mb-2 mb-lg-0 me-4 ms-5">
+             <!-- Home link -->
+             <li class="nav-item">
+               <a
+                 class="nav-link text-white"
+                 aria-current="page"
+                 href="userProfile"
+                 ><i class="bi bi-person-circle" style="font-size: 2rem"></i>
+                 Hello, <span th:text="${sessionUser.name}"></span></a
+               >
+             </li>
+           </ul>
+
+           <!-- Login and Register buttons -->
+           <div class="d-flex">
+             <a href="/logout" class="btn btn-danger">Logout</a>
+           </div>
+         </div>
+       </div>
+     </nav>
+   </header>

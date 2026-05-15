@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Main Page</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+	<link
+	      rel="stylesheet"
+	      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+	 />
+  </head>
+
+  
+  <body>
+    <!--Header Starts Here-->
+	
+    <div th:if="${sessionUser == null OR sessionUser ==''}">
+		<div th:replace="~{fragments/header :: crm-header}"></div>
+	</div>
+	<div th:unless="${sessionUser == null OR sessionUser ==''}">
+		<div th:replace="~{fragments/user-header :: u-header}"></div>
+	</div>
+
+    <!--Header Ends Here-->
+
+    <!--Main Content Starts Here-->
+	
+    <main class="container-fluid">
+      <!-- Banner image section -->
+      <section>
+        <img
+          src="/images/banner.jpg"
+          alt="Smart Programming Banner Image"
+          width="100%"
+        />
+      </section>
+      <!-- Courses section -->
+      <section class="container py-5 bg-light">
+        <h3 class="text-center mb-5">Our courses</h3>
+        <!-- Course cards using Bootstrap classes -->
+		<div class="row g-4">
+          <!-- First Course card for Core Java Over the th:each loop we access values by hard coding but later we will add them by using database -->
+		  <!-- currently we are adding vaules in our database manually later we do database operations using admin pannel -->
+		  <!-- -->
+          <div th:each="course : ${courseList}" class="col-lg-3 col-md-6">
+            <div class="card" style="width: 18rem">
+              <img
+                th:src="@{${course.imageUrl}}"
+                class="card-img-top"
+                alt="Core Java"
+              />
+              <div class="card-body">
+                <h5 class="card-title"><span th:text="${course.name}"></h5>
+                <p class="card-text">
+                  <span th:text="${course.description}"></span>
+                </p>
+                <p>
+                  <strong>Price :</strong> <del> Rs : <span th:text="${course.originalPrice}"></span>/-</del>
+                  <span class="bg-info p-2"> Rs : <span th:text="${course.discountedPrice}"></span>/-</span>
+                </p>
+				<div th:if="${sessionUser == null OR sessionUser ==''}">
+					<a href="login" class="btn btn-outline-primary">Login to Buy</a>
+				</div>
+
+				<div th:unless="${sessionUser == null OR sessionUser ==''}">
+					<button class="btn btn-primary" th:data-cname="${course.name}"
+					                                th:data-camount="${course.discountedPrice}"
+													th:data-uname="${sessionUser.name}"
+													th:data-uemail="${sessionUser.email}"
+													th:data-uphoneno="${sessionUser.phoneno}"
+													onclick="purchaseCourse(this.getAttribute('data-cname'),
+													                        this.getAttribute('data-camount'),
+																			this.getAttribute('data-uname'),
+																			this.getAttribute('data-uemail'),
+																			this.getAttribute('data-uphoneno'))">
+						Buy
+					</button>
+				</div>
+              </div>
+              <div class="card-footer text-body-secondary">
+                Updated : <span th:text="${course.updatedOn}">
+              </div>
+            </div>
+          </div>
+
+          <!-- First Course card for CoreJava Ends  -->
+          </div>
+      </section>
+    </main>
+    <!--Main Content Ends Here-->
+
+    <!--footer Starts Here-->
+
+	<div th:replace="~{fragments/footer :: crm-footer}"></div>
+	
+    <!--footer Ends Here-->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+	
+	<!-- <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script> -->
+	
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+	<script>
+	  function purchaseCourse(courseName,courseAmount,uname, uemail,uphoneno) {
+	    var options = {
+	      key: "rzp_test_Sk4bOxVUwsJzJ3",
+	      amount: parseInt(courseAmount) * 100, 
+	      currency: "INR",
+	      name: "Smart Programming",
+	      description: "Course Transaction",
+	      image:
+	        "https://i.pinimg.com/280x280_RS/6a/d0/90/6ad0908bbb78292d3b085dfd9469343d.jpg",
+	      handler: function (response) {
+	        console.log(response);
+	        alert("Payment Successful");
+			
+			var requestData = {
+				                courseName: courseName,
+								courseAmount: courseAmount,
+								userEmail: uemail,
+								dateOfPurchase: new Date().toLocaleString(),
+								rzpPaymentId: response.razorpay_payment_id
+			};
+
+			$.ajax({
+				type: "POST",
+				url: "/api/storeOrderDetails",
+				contentType: "application/json",
+				data: JSON.stringify(requestData),
+				success: function(response){
+					console.log("Data Stored SuccessFully", response);
+					alert("Congratulation, Course has been provided , Thank you");
+					window.location.href="/myCourses";
+				},
+				error: function(error){
+					console.log("Error Occured : " + error);
+					alert("Unfortunately, we are unable to provide this course : "+ error);
+				}	
+			});
+	      },
+		  
+	      prefill: {
+	        name: uname,
+	        email: uemail,
+	        contact: uphoneno,
+	      },
+	      notes: {
+	        CourseName: courseName,
+	      },
+	      theme: {
+	        color: "#3399cc",
+	      },
+	    };
+	    var rzp1 = new Razorpay(options);
+	    rzp1.on("payment.failed", function (response) {
+	      console.log(response);
+	      alert("Payment Failed" + response);
+	    });
+	    rzp1.open();
+	  }
+	</script>
+  </body>
+</html>
