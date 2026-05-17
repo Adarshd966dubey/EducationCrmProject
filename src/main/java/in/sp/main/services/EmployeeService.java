@@ -27,5 +27,22 @@ public class EmployeeService {
 	public Page<Employee> getAllEmployeeDetailsByPagination(Pageable pageable){
 		return employeeRepository.findAll(pageable);
 	}
+	
+	
+	// for adding Employee normally.
+	public void addEmployee(Employee employee) {
+		employeeRepository.save(employee);	
+	}
+	
+	// for getting Employee by their email
+	public Employee getEmployeeDetail(String empoyeeEmail) {
+		return employeeRepository.findByEemail(empoyeeEmail);
+	}
+	
+	// for save updated Employee.
+	public void updateEmployeeDetail(Employee employee) {
+		
+	   employeeRepository.save(employee);
+	}
 
 }

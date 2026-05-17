@@ -8,5 +8,6 @@ import in.sp.main.entities.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 	
+	Employee findByEemail(String eemail);
 
 }

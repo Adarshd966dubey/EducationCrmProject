@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Bootstrap demo</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+
+</head>
+
+<body>
+
+	<div th:replace="~{fragments/admin-sidebar :: frg-admin-sidebar}"></div>
+
+	<div class="content">
+		<h1>Employee Management</h1>
+		<p>Add Employee below...</p>
+
+		<section class="mt-5">
+			<h3 class="text-center">Add Employee</h3>
+			<div class="row justify-content-center">
+				<div class="card shadow mt-5 p-5" style="width: 40%;">
+					<!-- Put Register Form here-->
+
+					<div th:if="${successMsg}" class="mb-3 alert alert-success" role="alert">
+						<span th:text="${successMsg}"></span>
+					</div>
+
+					<div th:if="${errormsg}" class="mb-3 alert alert-danger" role="alert">
+						<span th:text="${errormsg}"></span>
+					</div>
+
+					<form th:action="@{/addEmployeeForm}" method="post" th:object="${employee}" enctype="multipart/form-data">
+
+						<div class="mb-3">
+							<label class="form-label">Employee Name : </label>
+							<input type="text" name="ename" class="form-control" required />
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label">Employee Email: </label>
+							<input type="text" name="eemail" class="form-control" required></input>
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Employee Password : </label>
+							<input type="text" name="epassword" class="form-control" required />
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Employee Phoneno : </label>
+							<input type="text" name="ephoneno" class="form-control" required />
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Employee City : </label>
+							<input type="text" name="ecity" class="form-control" required />
+						</div>
+						
+						<!-- I am not using this part providing image is not complusary for now may in future i will apply-->
+						<!--
+						<div class="mb-3">
+							<label class="form-label">Employee Image : </label>
+							<input type="file" name="courseImg" class="form-control" required />
+						</div>
+						-->
+
+
+						<button type="submit" class="btn btn-primary">Add Employee</button>
+
+					</form>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

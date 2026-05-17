@@ -21,7 +21,7 @@
 		<p>Here you can add, update and delete new employee : </p>
 
 		<section class="mt-5">
-			<a href="#" class="btn btn-primary"> Add Employee</a>
+			<a href="addEmployee" class="btn btn-primary"> Add Employee</a>
 		</section>
 
 		<section class="mt-5">
@@ -53,8 +53,13 @@
 						<td th:text="${employee.ename}"></td>
 						<td th:text="${employee.eemail}"></td>
 						<td th:text="${employee.ephoneno}"></td>
-						
-					    <!-- Will Apply edit and delete options -->
+
+						<!-- Will Apply edit and delete options -->
+						<td>
+							<a th:href="@{/editEmployee(employeeEmail=${employee.eemail})}" class="btn btn-warning">
+								<i class="bi bi-pencil-fill text-white"></i>
+							</a>
+						</td>
 					</tr>
 
 				</tbody>
