@@ -26,7 +26,7 @@ public class Orders {
 	private String dateOfPurchase;
 	
 	@Column
-	private String rzpPaymentId;
+	private String paymentId;
 	
 	@Column
 	private String orderId;
@@ -62,11 +62,12 @@ public class Orders {
 	public void setDateOfPurchase(String dateOfPurchase) {
 		this.dateOfPurchase = dateOfPurchase;
 	}
-	public String getRzpPaymentId() {
-		return rzpPaymentId;
+
+	public String getPaymentId() {
+		return paymentId;
 	}
-	public void setRzpPaymentId(String rzpPaymentId) {
-		this.rzpPaymentId = rzpPaymentId;
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
 	}
 	public String getOrderId() {
 		return orderId;

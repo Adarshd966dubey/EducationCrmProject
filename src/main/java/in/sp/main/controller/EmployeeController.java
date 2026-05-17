@@ -50,7 +50,6 @@ public class EmployeeController {
 			e.printStackTrace();
 			model.addAttribute("errorMsg", "Employee Added Successfully");
 		}
-
 		return "add-employee";
 	}
 
@@ -78,6 +77,22 @@ public class EmployeeController {
 			redirectAttributes.addFlashAttribute("errorMsg", "Employee updated successfully ...");
 			e.printStackTrace();
 		}
+		return "redirect:/employeeManagement";
+	}
+	
+	// ----------- delete methods for employee --------------------
+	
+	@GetMapping("/deleteEmployeeDetails")
+	public String deleteEmployeeDetails(@RequestParam("employeeEmail") String employeeEmail,
+			RedirectAttributes redirectAttributes) {
+		try {
+			employeeService.deleteEmployeeDetails(employeeEmail);  
+			redirectAttributes.addFlashAttribute("successMsg", "Your employee deleted successfully ...");
+		    } 
+		catch (Exception e) {
+			redirectAttributes.addFlashAttribute("errorMsg", "Not able to delete employee try again later ...");
+			e.printStackTrace();
+		    }
 		return "redirect:/employeeManagement";
 	}
 

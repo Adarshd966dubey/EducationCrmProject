@@ -12,37 +12,44 @@ import in.sp.main.repositories.EmployeeRepository;
 
 @Service
 public class EmployeeService {
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	
-	
+
 	// To get All Employees Details Without Any Specific Condition.
-	public List<Employee> getAllEmployeeDetails(){
+	public List<Employee> getAllEmployeeDetails() {
 		return employeeRepository.findAll();
 	}
-	
-	
+
 	// To get All Employees Details Based on Pagination.
-	public Page<Employee> getAllEmployeeDetailsByPagination(Pageable pageable){
+	public Page<Employee> getAllEmployeeDetailsByPagination(Pageable pageable) {
 		return employeeRepository.findAll(pageable);
 	}
-	
-	
+
 	// for adding Employee normally.
 	public void addEmployee(Employee employee) {
-		employeeRepository.save(employee);	
+		employeeRepository.save(employee);
 	}
-	
+
 	// for getting Employee by their email
 	public Employee getEmployeeDetail(String empoyeeEmail) {
 		return employeeRepository.findByEemail(empoyeeEmail);
 	}
-	
+
 	// for save updated Employee.
 	public void updateEmployeeDetail(Employee employee) {
-		
-	   employeeRepository.save(employee);
+
+		employeeRepository.save(employee);
+	}
+
+	// for delete Employee
+	public void deleteEmployeeDetails(String employeeEmail) {
+		Employee employee = employeeRepository.findByEemail(employeeEmail);
+		if (employee != null) {
+			employeeRepository.delete(employee);
+		} else {
+			throw new RuntimeException("Course Not Found with: " + employeeEmail);
+		}
 	}
 
 }
