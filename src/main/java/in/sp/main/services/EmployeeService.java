@@ -52,4 +52,14 @@ public class EmployeeService {
 		}
 	}
 
+	public boolean loginEmpService(String eemail, String epassword)
+	{
+		Employee employee = employeeRepository.findByEemail(eemail);
+		if(employee != null)
+		{
+			return epassword.equals(employee.getEpassword());
+		}
+		return false;
+	}
+
 }

@@ -10,16 +10,42 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.sp.main.entities.Employee;
+import in.sp.main.repositories.EmployeeRepository;
 import in.sp.main.services.EmployeeService;
 
 @Controller
+@SessionAttributes("sessionEmp")
 public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
+	
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	
+	@GetMapping("/employeeLogin")
+	public String OpenLoginPage() {
+		return "employee-login";
+	}
+	
+	@PostMapping("/empLoginForm")
+	public String OpenEmployeeLoginForm(@RequestParam("eemail") String eemail, @RequestParam("epassword") String epassword, Model model) {
+		
+		boolean isAuthenticated = employeeService.loginEmpService(eemail, epassword);
+		if(isAuthenticated) {
+			Employee authenticatedEmp = employeeRepository.findByEemail(eemail);
+			model.addAttribute("sessionEmp", authenticatedEmp);
+		return "employee-profile";
+		}
+		else {
+			model.addAttribute("errorMsg", "Encorrect Email id or Password");
+			return "employee-login";
+		}
+	}
 
 	@GetMapping("/employeeManagement")
 	public String OpenEmployeeManagementPage(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
