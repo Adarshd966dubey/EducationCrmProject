@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.sp.main.entities.Employee;
@@ -23,30 +24,42 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
+
 	
+    /*------   Handle Employee Login Page  -------*/
 	@GetMapping("/employeeLogin")
 	public String OpenLoginPage() {
 		return "employee-login";
 	}
-	
+
 	@PostMapping("/empLoginForm")
-	public String OpenEmployeeLoginForm(@RequestParam("eemail") String eemail, @RequestParam("epassword") String epassword, Model model) {
-		
+	public String OpenEmployeeLoginForm(@RequestParam("eemail") String eemail,
+			@RequestParam("epassword") String epassword, Model model) {
+
 		boolean isAuthenticated = employeeService.loginEmpService(eemail, epassword);
-		if(isAuthenticated) {
+		if (isAuthenticated) {
 			Employee authenticatedEmp = employeeRepository.findByEemail(eemail);
 			model.addAttribute("sessionEmp", authenticatedEmp);
-		return "employee-profile";
-		}
-		else {
+			return "employee-profile";
+		} else {
 			model.addAttribute("errorMsg", "Encorrect Email id or Password");
 			return "employee-login";
 		}
 	}
 
+	
+    /*------   Handle EmployeeProfile Page  -------*/
+	@GetMapping("/employeeProfile")
+	public String OpenEmployeeProfilePage() {
+		return "employee-profile";
+	}
+	
+	
+	
+     /*------   Handle EmployeManagement Page  -------*/
 	@GetMapping("/employeeManagement")
 	public String OpenEmployeeManagementPage(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "3") int size) {
@@ -59,7 +72,7 @@ public class EmployeeController {
 		return "employee-management";
 	}
 
-	// For Adding Employee Details Starts
+	/*------  Adding Employee Details Starts -------------*/
 
 	@GetMapping("/addEmployee")
 	public String OpenAddEmployeePage(Model model) {
@@ -79,9 +92,9 @@ public class EmployeeController {
 		return "add-employee";
 	}
 
-	// For Adding Employee Details Ends
+	/*------  For Adding Employee Details Ends-------------*/
 
-	// For Edit Employee Details Starts
+	/*------  Edit Employee Details Starts-------------*/
 	@GetMapping("/editEmployee")
 	public String OpenEditEmployeePage(@RequestParam("employeeEmail") String employeeEmail, Model model) {
 		Employee employee = employeeService.getEmployeeDetail(employeeEmail);
@@ -105,21 +118,28 @@ public class EmployeeController {
 		}
 		return "redirect:/employeeManagement";
 	}
-	
+
 	// ----------- delete methods for employee --------------------
-	
+
 	@GetMapping("/deleteEmployeeDetails")
 	public String deleteEmployeeDetails(@RequestParam("employeeEmail") String employeeEmail,
 			RedirectAttributes redirectAttributes) {
 		try {
-			employeeService.deleteEmployeeDetails(employeeEmail);  
+			employeeService.deleteEmployeeDetails(employeeEmail);
 			redirectAttributes.addFlashAttribute("successMsg", "Your employee deleted successfully ...");
-		    } 
-		catch (Exception e) {
+		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("errorMsg", "Not able to delete employee try again later ...");
 			e.printStackTrace();
-		    }
+		}
 		return "redirect:/employeeManagement";
+	}
+
+	
+	
+	// -------------Open sell Course Page--------------
+	@GetMapping("/sellCourse")
+	public String OpenSellCoursePage(SessionStatus sessionStatus) {
+		return "sell-course";
 	}
 
 }
