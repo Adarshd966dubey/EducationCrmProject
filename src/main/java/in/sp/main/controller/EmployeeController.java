@@ -1,5 +1,11 @@
 package in.sp.main.controller;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,8 +21,11 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.sp.main.entities.Employee;
+import in.sp.main.entities.Orders;
 import in.sp.main.repositories.EmployeeRepository;
+import in.sp.main.services.CourseService;
 import in.sp.main.services.EmployeeService;
+import in.sp.main.services.OrdersService;
 
 @Controller
 @SessionAttributes("sessionEmp")
@@ -24,6 +33,12 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
+	
+	@Autowired
+	private CourseService courseService;
+	
+	@Autowired
+	private OrdersService ordersService;
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
@@ -138,8 +153,37 @@ public class EmployeeController {
 	
 	// -------------Open sell Course Page--------------
 	@GetMapping("/sellCourse")
-	public String OpenSellCoursePage(SessionStatus sessionStatus) {
+	public String OpenSellCoursePage(Model model) {
+		List<String> courseNameList = courseService.getAllCoursesName();
+		model.addAttribute("courseNameList", courseNameList);
+		
+		String uuidOrderId = UUID.randomUUID().toString();
+		model.addAttribute("uuidOrderId", uuidOrderId);
+		model.addAttribute("orders", new Orders());
+		
 		return "sell-course";
+	}
+	
+	//---------- Handling Sell course form ---------------------------
+	@PostMapping("/sellCourseForm")
+	public String OpenSellCourseFormPage(@ModelAttribute("orders") Orders orders, RedirectAttributes redirectAttributes) {
+		
+		LocalDate ld = LocalDate.now();
+		String pdate = ld.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		LocalTime lt = LocalTime.now();
+		String ptime = lt.format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
+		String puchased_Date_Time = pdate+" ,"+ptime;
+		orders.setDateOfPurchase(puchased_Date_Time);
+		
+		try {
+			ordersService.storeUserOrders(orders);
+			redirectAttributes.addFlashAttribute("successMsg","Course provided successfully ...");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("errorMsg","Not able to provide course try After some time...");
+		}
+		return "redirect:/sellCourse";
 	}
 
 }
