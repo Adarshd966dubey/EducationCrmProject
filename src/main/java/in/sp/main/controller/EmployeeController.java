@@ -1,3 +1,4 @@
+
 package in.sp.main.controller;
 
 import java.time.LocalDate;
@@ -184,6 +185,17 @@ public class EmployeeController {
 			redirectAttributes.addFlashAttribute("errorMsg","Not able to provide course try After some time...");
 		}
 		return "redirect:/sellCourse";
+	}
+	
+	@GetMapping("/inqueryManagement")
+	public String OpenInqueryManagementPage() {
+		return "inquery-management";
+	}
+	
+	@GetMapping("/employeeLogout")
+	public String OpenLogOutEmployeePage(SessionStatus sessionStatus) {
+		sessionStatus.setComplete();
+		return "employee-login";
 	}
 
 }
