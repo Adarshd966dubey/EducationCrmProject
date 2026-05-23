@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title>Admin Feedback Page</title>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+	<style>
+		body {
+			background-color: #f5f7fb;
+		}
+
+		.content {
+			margin-left: 260px;
+			padding: 30px;
+		}
+
+		.page-title {
+			font-weight: bold;
+		}
+
+		.feedback-card {
+			border: none;
+			border-radius: 15px;
+		}
+
+		.user-img {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+
+		.rating-stars {
+			color: #ffc107;
+			font-size: 18px;
+		}
+
+		.feedback-message {
+			max-width: 320px;
+		}
+
+		.table thead {
+			background-color: #212529;
+			color: white;
+		}
+
+		.search-box {
+			width: 280px;
+		}
+	</style>
+	<link rel="stylesheet" th:href="@{/css/style.css}"/>
+
+</head>
+
+<body>
+
+	<!-- Sidebar Replace Here -->
+	<div th:replace="~{fragments/admin-sidebar :: frg-admin-sidebar}"></div>
+
+	<div class="content">
+
+		<div class="d-flex justify-content-between align-items-center mb-4">
+
+			<div>
+				<h1 class="page-title">Feedbacks</h1>
+				<p class="text-muted">
+					Manage all user feedback and reviews here.
+				</p>
+			</div>
+
+			<div class="search-box">
+				<input type="text" class="form-control" placeholder="Search feedback...">
+			</div>
+
+		</div>
+
+		<!-- Stats Cards -->
+
+		<div class="row mb-4">
+
+			<div class="col-md-4">
+				<div class="card feedback-card shadow-sm">
+					<div class="card-body">
+
+						<h6 class="text-muted">Total Feedback</h6>
+
+						<h2>245</h2>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card feedback-card shadow-sm">
+					<div class="card-body">
+
+						<h6 class="text-muted">Positive Reviews</h6>
+
+						<h2 class="text-success">210</h2>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card feedback-card shadow-sm">
+					<div class="card-body">
+
+						<h6 class="text-muted">Negative Reviews</h6>
+
+						<h2 class="text-danger">35</h2>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Feedback Table -->
+
+		<div class="card feedback-card shadow">
+
+			<div class="card-body">
+
+				<div class="table-responsive">
+
+					<table class="table table-hover align-middle">
+
+						<thead>
+
+							<tr>
+								<th>User</th>
+								<th>Email</th>
+								<th>Course</th>
+								<th>Rating</th>
+								<th>Feedback</th>
+								<th>Date</th>
+								<th>Action</th>
+							</tr>
+
+						</thead>
+
+						<tbody>
+
+							<tr>
+
+								<td>
+									<div class="d-flex align-items-center gap-2">
+
+										<img src="https://i.pravatar.cc/100?img=1" class="user-img" alt="user">
+
+										<span>Rahul Sharma</span>
+
+									</div>
+								</td>
+
+								<td>rahul@gmail.com</td>
+
+								<td>Java Full Stack</td>
+
+								<td>
+									<div class="rating-stars">
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-half"></i>
+									</div>
+								</td>
+
+								<td class="feedback-message">
+									Excellent course with practical examples.
+								</td>
+
+								<td>20 May 2026</td>
+
+								<td>
+									<button class="btn btn-danger btn-sm">
+										<i class="bi bi-trash-fill"></i>
+									</button>
+								</td>
+
+							</tr>
+
+							<tr>
+
+								<td>
+									<div class="d-flex align-items-center gap-2">
+
+										<img src="https://i.pravatar.cc/100?img=5" class="user-img" alt="user">
+
+										<span>Anjali Verma</span>
+
+									</div>
+								</td>
+
+								<td>anjali@gmail.com</td>
+
+								<td>Spring Boot</td>
+
+								<td>
+									<div class="rating-stars">
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star"></i>
+										<i class="bi bi-star"></i>
+									</div>
+								</td>
+
+								<td class="feedback-message">
+									Good content but needs more real projects.
+								</td>
+
+								<td>18 May 2026</td>
+
+								<td>
+									<button class="btn btn-danger btn-sm">
+										<i class="bi bi-trash-fill"></i>
+									</button>
+								</td>
+
+							</tr>
+
+							<tr>
+
+								<td>
+									<div class="d-flex align-items-center gap-2">
+
+										<img src="https://i.pravatar.cc/100?img=8" class="user-img" alt="user">
+
+										<span>Amit Kumar</span>
+
+									</div>
+								</td>
+
+								<td>amit@gmail.com</td>
+
+								<td>Hibernate Course</td>
+
+								<td>
+									<div class="rating-stars">
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i>
+									</div>
+								</td>
+
+								<td class="feedback-message">
+									One of the best Hibernate tutorials.
+								</td>
+
+								<td>15 May 2026</td>
+
+								<td>
+									<button class="btn btn-danger btn-sm">
+										<i class="bi bi-trash-fill"></i>
+									</button>
+								</td>
+
+							</tr>
+
+						</tbody>
+
+					</table>
+
+				</div>
+
+				<!-- Pagination -->
+
+				<nav class="mt-4">
+
+					<ul class="pagination justify-content-center">
+
+						<li class="page-item disabled">
+							<a class="page-link" href="#">
+								&laquo;
+							</a>
+						</li>
+
+						<li class="page-item active">
+							<a class="page-link" href="#">1</a>
+						</li>
+
+						<li class="page-item">
+							<a class="page-link" href="#">2</a>
+						</li>
+
+						<li class="page-item">
+							<a class="page-link" href="#">3</a>
+						</li>
+
+						<li class="page-item">
+							<a class="page-link" href="#">
+								&raquo;
+							</a>
+						</li>
+
+					</ul>
+
+				</nav>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

@@ -53,5 +53,11 @@ public class AdminController {
 	}
 	// -------------  Admin Page Ends----------- //
 	
+	
+	@GetMapping("/adminFeedback")
+	public String openAdminFeedbackPage() {
+
+		return "admin-feedback";
+	}
 
 }

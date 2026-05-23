@@ -1,7 +1,6 @@
 <div class="sidebar" th:fragment="frg-employee-sidebar">
 	<nav class="nav flex-column mt-5">
-		<h5 class="text-white ms-3 mb-5">Welcome <span th:value="${sessionEmp.ename}"
-				th:text="${sessionEmp.ename}"></span></h5>
+		<h5 class="text-white ms-3 mb-5" th:text="'Welcome : ' + ${sessionEmp.ename} "> </h5>
 
 		<a href="/employeeProfile" class="nav-link">
 			<i class="bi bi-person-circle"></i>
