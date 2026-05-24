@@ -59,5 +59,13 @@ public class AdminController {
 
 		return "admin-feedback";
 	}
+	
+	@GetMapping("/adminLogout")
+	public String openAdminLogoutPage() {
+
+		return "admin-login";
+	}
+	
+	
 
 }
