@@ -69,7 +69,7 @@ public class CourseController {
 	}
 
 	@PostMapping("/addCourseForm")
-	public String addCourseForm(@ModelAttribute("course") Course course,
+	public String OpenaddCourseForm(@ModelAttribute("course") Course course,
 			@RequestParam("courseImg") MultipartFile courseImg, Model model) {
 		try {
 			courseService.addCourse(course, courseImg);
@@ -101,7 +101,7 @@ public class CourseController {
 	}
 
 	@PostMapping("/updateCourseDetailsForm")
-	public String updateCourseDetailsForm(@ModelAttribute("newCourseObj") Course newCourseObj,
+	public String OpenUpdateCourseDetailsForm(@ModelAttribute("newCourseObj") Course newCourseObj,
 			@RequestParam("courseImg") MultipartFile courseImg, RedirectAttributes redirectAttributes) {
 
 		try {
@@ -136,7 +136,7 @@ public class CourseController {
 	
 	// ------------------ delete Course Starts --------------- //
 	@GetMapping("/deleteCourseDetails")
-	public String deleteCourseDetails(@RequestParam("courseName") String courseName,
+	public String OpenDeleteCourseDetails(@RequestParam("courseName") String courseName,
 			RedirectAttributes redirectAttributes, HttpSession session) {
 		try {
 

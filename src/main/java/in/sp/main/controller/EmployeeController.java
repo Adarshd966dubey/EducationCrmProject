@@ -138,7 +138,7 @@ public class EmployeeController {
 	// ----------- delete methods for employee --------------------
 
 	@GetMapping("/deleteEmployeeDetails")
-	public String deleteEmployeeDetails(@RequestParam("employeeEmail") String employeeEmail,
+	public String OpenDeleteEmployeeDetails(@RequestParam("employeeEmail") String employeeEmail,
 			RedirectAttributes redirectAttributes) {
 		try {
 			employeeService.deleteEmployeeDetails(employeeEmail);
