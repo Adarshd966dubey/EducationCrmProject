@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.sp.main.entities.Course;
 import in.sp.main.services.CourseService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class CourseController {
@@ -32,10 +33,15 @@ public class CourseController {
 	
 	// ------ Course Management Starts --------------- //
 	@GetMapping("/courseManagement")
-	public String openCourseManagementPage(Model model,
+	public String openCourseManagementPage(Model model, HttpSession session,
 			@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "5") int size) {
 		
+		String admin =
+	            (String) session.getAttribute("adminSession");
+	    if(admin == null) {
+	        return "redirect:/adminLogin";
+	    }
 		
         Pageable pageable = PageRequest.of(page, size);
 		
@@ -52,13 +58,18 @@ public class CourseController {
 
 	// ------ Add Course Parts Starts --------------- //
 	@GetMapping("/addCourse")
-	public String openAddCoursePage(Model model) {
-		model.addAttribute("course", new Course());
-		return "add-course";
+	public String openAddCoursePage(Model model, HttpSession session) {
+	    String admin =
+	            (String) session.getAttribute("adminSession");
+	    if(admin == null) {
+	        return "redirect:/adminLogin";
+	    }
+	    model.addAttribute("course", new Course());
+	    return "add-course";
 	}
 
 	@PostMapping("/addCourseForm")
-	public String addCourseForm(@ModelAttribute("course") Course course,
+	public String OpenaddCourseForm(@ModelAttribute("course") Course course,
 			@RequestParam("courseImg") MultipartFile courseImg, Model model) {
 		try {
 			courseService.addCourse(course, courseImg);
@@ -77,7 +88,12 @@ public class CourseController {
 
 	// -------------- Edit Course Start ---------------------------//
 	@GetMapping("/editCourse")
-	public String openEditCoursePage(@RequestParam("courseName") String courseName, Model model) {
+	public String openEditCoursePage(@RequestParam("courseName") String courseName, Model model, HttpSession session) {
+		String admin =
+	            (String) session.getAttribute("adminSession");
+	    if(admin == null) {
+	        return "redirect:/adminLogin";
+	    }
 		Course course = courseService.getCourseDetails(courseName);
 		model.addAttribute("course", course);
 		model.addAttribute("newCourseObj", new Course());
@@ -85,7 +101,7 @@ public class CourseController {
 	}
 
 	@PostMapping("/updateCourseDetailsForm")
-	public String updateCourseDetailsForm(@ModelAttribute("newCourseObj") Course newCourseObj,
+	public String OpenUpdateCourseDetailsForm(@ModelAttribute("newCourseObj") Course newCourseObj,
 			@RequestParam("courseImg") MultipartFile courseImg, RedirectAttributes redirectAttributes) {
 
 		try {
@@ -120,8 +136,8 @@ public class CourseController {
 	
 	// ------------------ delete Course Starts --------------- //
 	@GetMapping("/deleteCourseDetails")
-	public String deleteCourseDetails(@RequestParam("courseName") String courseName,
-			RedirectAttributes redirectAttributes) {
+	public String OpenDeleteCourseDetails(@RequestParam("courseName") String courseName,
+			RedirectAttributes redirectAttributes, HttpSession session) {
 		try {
 
 			courseService.deleteCourseDetails(courseName);

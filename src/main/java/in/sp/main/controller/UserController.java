@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -41,11 +42,22 @@ public class UserController {
 	
 	
 	// -------------- First Loading Page Starts----------------------//
+	
 	@GetMapping({"/","/index"})
-	public String OpenIndexPage(Model model) {
+	public String OpenIndexPage(Model model, @SessionAttribute(name="sessionUser", required=false) User sessionUser) {
 		
 		List<Course> courseList = courseService.getAllCourseDetails();
 		model.addAttribute("courseList", courseList);
+		
+		if(sessionUser != null ) {
+			List<Object[]> purchasedCoursesList = ordersRepository.findPurchasedCoursesByEmail(sessionUser.getEmail());
+			List<String> purchasedCoursesNameList =new ArrayList<>();
+			for(Object[] course : purchasedCoursesList) {
+				String courseName = (String)course[3];
+				purchasedCoursesNameList.add(courseName);
+			}
+			model.addAttribute("purchasedCoursesNameList", purchasedCoursesNameList);
+		}
 		
 		return "index";
 	}

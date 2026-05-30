@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
+
 
 
 @Controller
+
 public class AdminController {
 	
 	
@@ -28,17 +31,22 @@ public class AdminController {
 	}
 	
 	@PostMapping("/adminLoginForm")
-	public String adminLoginForm(@RequestParam("adminemail") String aemail, @RequestParam("adminpass") String apass,
-			Model model) {
+	public String OpenAdminLoginForm( @RequestParam("adminemail") String aemail,
+	                              @RequestParam("adminpass") String apass,
+	                              Model model, HttpSession session) {
 
-		if (aemail.equals(AdminEmail) && apass.equals(AdminPassword)) {
+	    if (aemail.equals(AdminEmail) &&
+	        apass.equals(AdminPassword)) {
 
-			return "admin-profile";
-		} else {
+	        session.setAttribute("adminSession", aemail);
 
-			model.addAttribute("errormsg", "Invalid Email or Password : Please check Again");
-			return "admin-login";
-		}
+	        return "redirect:/adminProfile";
+
+	    } else {
+
+	        model.addAttribute("errormsg", "Invalid Email or Password");
+            return "admin-login";
+	    }
 	}
 	// ------------- Login Page Ends----------- //
 
@@ -47,11 +55,42 @@ public class AdminController {
 	
 	// -------------- Opening admin profile page Starts ------//
 	@GetMapping("/adminProfile")
-	public String openAdminProfilePage() {
+	public String openAdminProfilePage(HttpSession session) {
 
-		return "admin-profile";
+	    String admin =
+	        (String) session.getAttribute("adminSession");
+
+	    if(admin == null) {
+	        return "redirect:/adminLogin";
+	    }
+
+	    return "admin-profile";
 	}
 	// -------------  Admin Page Ends----------- //
 	
+	
+	@GetMapping("/adminFeedback")
+	public String openAdminFeedbackPage(HttpSession session) {
+
+	    String admin =
+	        (String) session.getAttribute("adminSession");
+
+	    if(admin == null) {
+	        return "redirect:/adminLogin";
+	    }
+
+	    return "admin-feedback";
+	}
+	
+	@GetMapping("/adminLogout")
+	public String openAdminLogoutPage(HttpSession session) {
+
+	    session.invalidate();
+
+	    return "redirect:/adminLogin";
+	}
+	
+	
 
 }
+
